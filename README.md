@@ -1,0 +1,2 @@
+# smORFs
+ncbi working scripts
