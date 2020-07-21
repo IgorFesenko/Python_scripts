@@ -21,7 +21,7 @@ def long_repeat(line):
       
 
 # DB file
-file_input = r"C:\Users\Фесенко\Google Диск\lncRNAs_sORFs\lncRNAs_sorfs_mipepid\combined_sORFs_mipepid_locus_transcripts_nonredundant_nonested.fasta"
+file_input = r""
 
 
 #reading DB
@@ -32,7 +32,7 @@ for record in SeqIO.parse(file_input, 'fasta'):
     final_lst.extend(["".join(i) for i in res])
     
 # out data
-with open(r"C:\Users\Фесенко\Google Диск\lncRNAs_sORFs\Paper\aa_string_count4.txt", 'w') as out:
+with open(r"", 'w') as out:
     for i in final_lst:
         out.write(f"{i}\n")
 
