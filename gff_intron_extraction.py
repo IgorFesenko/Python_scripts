@@ -1,4 +1,4 @@
-# Extracting intron sequences from gff and read in bed file
+# Extracting intron sequences from gff and writing in bed file
 
 import pandas as pd
 
@@ -25,11 +25,11 @@ def intron_extraction2(df):
 
 
 
-input_file = r"C:\Users\fesenkoi2\IFESENKO\sORFinder\Sfallax\Sfallax_522_v1.1.gene.gff3"
+input_file = r'/Users/igorfesenko/Google Диск/Phytozome_Ppatens_29012020/PhytozomeV12/Ppatens/annotation/Ppatens_318_v3.3.gene.gff3'
 
 df = pd.read_csv(input_file, sep='\t', header=2, names=['seqname','source','feature', 'start','end','score','strand','frame','attribute'])
 
-df.head()
+#df.apply(intron_extraction1, axis=1)
 intron_extraction2(df)
 
 
@@ -38,9 +38,9 @@ for gene in bed_file:
         for i in range(len(gene)-1):
             try:
                 chr = gene[i][0]
-                intr_start = gene[i][2]+1
-                intr_end = gene[i+1][1]-1
-                with open(r'C:\Users\fesenkoi2\IFESENKO\sORFinder\Sfallax\sfallax_intron2.bed','a') as out:
+                intr_start = gene[i][2]
+                intr_end = gene[i+1][1]
+                with open('intron.bed','a') as out:
                     out.write(f"{chr}\t{intr_start}\t{intr_end}\n")
             except:
                 print(gene)
