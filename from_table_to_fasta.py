@@ -6,17 +6,20 @@ from Bio.Alphabet import IUPAC
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 from Bio import SeqIO
+import numpy as np
 
 
 
-table = pd.read_excel(r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\table_seq.xlsx")
-out_fasta = r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\full_seq.fasta"
+table = pd.read_excel(r"F:\YandexDisk-feigor\1kb_sorfs_logo\ORF19_TDM\script_results\table_seq.xlsx")
+filt_table = table[np.logical_not(table['Full_PEP']==None)]
+out_fasta = r"F:\YandexDisk-feigor\1kb_sorfs_logo\ORF19_TDM\script_results\full_seq.fasta"
 
 results=[]
 
-for index,row in table.iterrows():
-    seq_id = row['ID']
-    if row['Full_PEP'] != None:
+for index,row in filt_table.iterrows():
+    seq_id = f"{row['ID']}_{row['species']}"
+    if row['Full_PEP'] != 'None':
+        #print(row['Full_PEP'])
         seq_seq = Seq(row['Full_PEP'], IUPAC.unambiguous_dna)
         results.append(SeqRecord(seq=seq_seq, id=seq_id))
     else:

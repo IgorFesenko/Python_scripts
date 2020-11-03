@@ -14,14 +14,12 @@ import re
 E_VALUE = 10
 
 # tblastn file
-file = r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\out.0.txt"
+file = r"F:\YandexDisk-feigor\1kb_sorfs_logo\ORF19_TDM\out.0.txt"
 
-transcripts = r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\all_seq.fasta"
-
-table_out = r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\table_seq.xlsx"
+table_out = r"F:\YandexDisk-feigor\1kb_sorfs_logo\ORF19_TDM\script_results\table_seq.xlsx"
 
 # all transcript sequences
-transcripts = r"F:\YandexDisk-feigor\1kb_sorfs_logo\DVL_peptides\Pp3c19_10140V3.1_ORF20\all_seq.fasta"
+transcripts = r"F:\YandexDisk-feigor\1kb_sorfs_logo\ORF19_TDM\all_seq.fasta"
 dict_trascript = SeqIO.index(transcripts, "fasta")
 
 def benchmark(func):
@@ -52,7 +50,7 @@ def read_seq(file, e):
                     desc = 'reverse'
                 else:
                     desc = 'true'
-                results.append(SeqRecord(seq=hsp.hit.seq, id=f"gnl|onekp|{seq_id}", description=f"{desc}"))
+                results.append(SeqRecord(seq=hsp.hit.seq, id=f"gnl|onekp|{seq_id}", description=f"{desc}_{hit.description}"))
                 #sequence = Seq(hsp.hit.seq, IUPAC.unambiguous_dna)           
     return results
 
@@ -64,7 +62,10 @@ def seq_table(file):
     
     seq_data = []
     for record in SeqIO.parse(file,'fasta'):
-        seq_data.append([record.id, str(record.seq), record.description.split()[1]])
+        descr = record.description.split()[1]
+        descr1 = descr.split('_',maxsplit=1)[0]
+        descr2 = descr.split('_',maxsplit=1)[1]
+        seq_data.append([record.id, str(record.seq), descr1, descr2])
     return seq_data
 
 
@@ -135,7 +136,7 @@ print("reading fasta")
 seq = seq_table(seq_name)
 
 # creating table
-df = pd.DataFrame(columns=['ID','Sequence','frame'], data=seq)
+df = pd.DataFrame(columns=['ID','Sequence','frame', 'species'], data=seq)
 df['taq'] = df.apply(longest_taq, axis=1)
 #print(df.sample(7).to_string())
 
@@ -150,9 +151,9 @@ df['transcript'] = df.swifter.apply(transcr_refine, axis=1)
 #adding full peptide sequence
 df['Full_PEP'] = df.apply(transcript_translation, axis=1)
 
-print(df[['ID','taq','frame','Full_PEP']])
+print(df[['ID','taq','frame','species','Full_PEP']])
 
-#df.to_excel(table_out, index=False)
+df.to_excel(table_out, index=False)
 
 
 
