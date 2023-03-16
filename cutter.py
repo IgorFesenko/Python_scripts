@@ -4,7 +4,7 @@ from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 
 # read file
-file_input = r"C:\Users\fesenkoi2\IFESENKO\lncRNAs_sORFs\combined_set\Rfam_analysis\merged_lncRNAs_transcripts_filtered_nonredundant_newname.fasta"
+file_input = r""
 
 SEQ_LIMIT = 990
 
