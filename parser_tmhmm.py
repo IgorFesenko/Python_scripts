@@ -4,7 +4,7 @@ Parsing the results of TMHMM2 output
 import pandas as pd
 import re
 
-file = r"C:\Users\fesenkoi2\IFESENKO\TMHMM\NcbiFinder_output"
+file = r""
 
 table = pd.DataFrame({'sORF':[],'Number_of_predicted_THMs':[],'Exp_number_AA':[],'Exp_number_first60AA':[],'Prob_of_N':[],'Possible_N-term_signal':[],'Result':[]})
 
